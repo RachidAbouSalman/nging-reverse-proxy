@@ -1,0 +1,9 @@
+FROM node:alpine AS builder
+
+RUN npx create-react-app my-app 
+WORKDIR /my-app
+RUN npm run build
+
+FROM nginx:alpine
+
+COPY --from=builder /my-app/build /usr/share/nginx/html

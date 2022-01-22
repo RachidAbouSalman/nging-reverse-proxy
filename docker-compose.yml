@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  site1:
+    build:
+      dockerfile: Dockerfile.site1
+      context: .
+    container_name: site1
+    ports:
+      - "8001:80"
+
+  site2:
+    build:
+      dockerfile: Dockerfile.site2
+      context: .
+    container_name: site2
+    ports:
+      - "8002:80"
+
+  reverse_proxy:
+    build:
+      dockerfile: Dockerfile.reverseproxy
+      context: .
+    container_name: reverse_proxy
+    ports:
+      - "80:80"
+
+  react-app:
+    build:
+      dockerfile: Dockerfile.react
+      context: .
+    container_name: react-app
+    ports:
+      - "9000:80"
+
+  jenkins:
+    image: jenkins/jenkins
+    container_name: jenkins
+    environment:
+      - "JENKINS_SLAVE_AGENT_PORT=50001"
+    ports:
+     - "8080:8080"
+     - "50001:50001"
+      
